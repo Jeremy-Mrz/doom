@@ -1,0 +1,25 @@
+section{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 16px 24px;
+
+  .card{
+    background-color: rgb(171, 163, 163);
+    box-shadow: 4px 4px rgb(124, 122, 122);
+    padding: 8px 16px;
+    border-radius: 8px;
+    overflow: auto;
+
+    header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+
+      h3{
+        margin: 0;
+      }
+    }
+  }
+}

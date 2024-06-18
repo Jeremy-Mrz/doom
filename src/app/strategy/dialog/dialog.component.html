@@ -1,0 +1,88 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row">
+    <div class="column">
+      <mat-form-field>
+        <mat-label>Base Token</mat-label>
+        <mat-select formControlName="baseTokenAddress">
+          @for(token of tokens; track token) {
+          <mat-option [value]="token.address"
+            [disabled]="form.get('quoteTokenAddress')?.value == token.address">{{token.symbol}}</mat-option>
+          }
+        </mat-select>
+        @if( form.hasError('diffToken')) {
+        <mat-error>2 different tokens required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Buy min</mat-label>
+        <input matInput type="number" formControlName="buyMin">
+        @if( form.get('buyMin')?.hasError('minRequired')) {
+        <mat-error>value required > 0</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Buy max</mat-label>
+        <input matInput type="number" formControlName="buyMax" [errorStateMatcher]="buyMaxMatcher">
+        @if(form.get('buyMax')?.hasError('minRequired')) {
+        <mat-error>value required > 0</mat-error>
+        } @else if (form.hasError('buyMin')) {
+        <mat-error>Buy max needs to be greater than buy min</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Buy budget</mat-label>
+        <input matInput type="number" formControlName="buyBudget">
+        @if( form.get('buyBudget')?.hasError('minRequired')) {
+        <mat-error>value required > 0</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="column">
+      <mat-form-field>
+        <mat-label>Quote Token</mat-label>
+        <mat-select formControlName="quoteTokenAddress">
+          @for(token of tokens; track token) {
+          <mat-option [value]="token.address"
+            [disabled]="form.get('baseTokenAddress')?.value == token.address">{{token.symbol}}</mat-option>
+          }
+        </mat-select>
+        @if( form.hasError('diffToken')) {
+        <mat-error>2 different tokens required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Sell min</mat-label>
+        <input matInput type="number" formControlName="sellMin" [errorStateMatcher]="sellMinMatcher">
+        @if( form.get('sellMin')?.hasError('minRequired')) {
+        <mat-error>value required > 0</mat-error>
+        } @else if (form.hasError('buyMax')) {
+        <mat-error>Sell min needs to be greater than buy max</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Sell max</mat-label>
+        <input matInput type="number" formControlName="sellMax" [errorStateMatcher]="sellMaxMatcher">
+        @if( form.get('sellMax')?.hasError('minRequired')) {
+        <mat-error>value required > 0</mat-error>
+        } @else if (form.hasError('sellMin')) {
+        <mat-error>Sell max needs to be greater than sell min</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Sell budget</mat-label>
+        <input matInput type="number" formControlName="sellBudget">
+        @if( form.get('sellBudget')?.hasError('minRequired')) {
+        <mat-error>value required > 0</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </div>
+
+  <footer>
+    <button mat-button color="warn" type="button" (click)="reset()">Reset</button>
+    <button mat-flat-button color="primary">Submit</button>
+  </footer>
+</form>

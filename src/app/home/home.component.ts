@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
-import { BrowserProvider, JsonRpcSigner, Contract } from 'ethers';
+import { Component, inject } from '@angular/core';
+import { Contract, Interface } from 'ethers';
 import doomAbi from "../utils/abi/doom";
-import { contractAddresses } from '../utils/addresses';
+import { contractAddresses } from '../utils/contract/addresses';
 
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { SignerService } from '../signer.service';
+import { initSDK } from '../utils/sdk';
+import { Strategy } from '@bancor/carbon-sdk';
+import { TokenNamePipe } from '../utils/pipes';
 
 const imports = [
-  MatButtonModule
+  MatButtonModule,
+  RouterModule,
+  TokenNamePipe
 ]
 
 @Component({
@@ -17,19 +24,35 @@ const imports = [
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  myStrategies?: any;
+  private signerService = inject(SignerService);
   balance?: string;
-  signer?: JsonRpcSigner;
+  signer = this.signerService.signer;
+  deployedStrategies: Strategy[] = [];
+  loading = false;
+
 
   async metamask() {
-    const provider = new BrowserProvider((window as any).ethereum);
-    this.signer = await provider.getSigner();
+    this.loading = true;
+    if (!this.signerService.signer()) await this.signerService.connectetSigner();
+    await this.getStrategies();
+    this.loading = false;
   }
 
-  async test() {
-    if(!this.signer) return console.log("nope");
-    const doomContract = new Contract(contractAddresses.doomAddress, doomAbi, this.signer);
-    const res = await doomContract['test']();
-    console.log(res);
+  async getStrategies() {
+    const test = new Interface(doomAbi);
+    if (!this.signerService.signer()) return;
+    const doom = new Contract(contractAddresses.doomAddress, doomAbi, this.signerService.signer());
+    const filters = doom.filters['StategiesIdList'];
+    const res = await doom.queryFilter(filters);
+    const ids = [];
+    for (const log of res) {
+      if ("args" in log) {
+        ids.push(...log.args[0]);
+      };
+    };
+    const { SDK } = initSDK();
+    const promises = ids.map(id => SDK.getStrategyById(id));
+    const strategies = await Promise.all(promises);
+    this.deployedStrategies.push(...strategies);
   }
 }

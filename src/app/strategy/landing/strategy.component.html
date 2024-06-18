@@ -1,0 +1,46 @@
+<header class="toolbar">
+  <a routerLink="../" mat-icon-button>
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <h1>Welcome to DOOM</h1>
+  <footer>
+    @if (signerService.signer()) {
+      <p>connected</p>
+      <img src="../assets/check-mark-svgrepo-com.svg">
+      } @else {
+        <p>not connected</p>
+        <img src="../assets/cross-mark-svgrepo-com.svg">
+    }
+  </footer>
+</header>
+
+<h2>Welcome to Strategies</h2>
+
+
+<button mat-flat-button color="primary" (click)="createStrategy()" [disabled]="loading">Create</button>
+
+<button (click)="generateStrat()" [disabled]="loading">Generate strat</button>
+
+@if(strategies.length) {
+<button mat-flat-button (click)="deployStrategies()" [disabled]="loading">Deploy</button>
+}
+
+
+<section>
+
+  @for(strategy of strategies; track strategy){
+  <div class="card">
+    <header>
+      <h3>{{strategy.baseTokenAddress | TokenName}} / {{strategy.quoteTokenAddress | TokenName}}</h3>
+      <div>
+        <button (click)="updateStrategy($index)" mat-icon-button><mat-icon>edit</mat-icon></button>
+        <button (click)="deleteStrategy($index)" mat-icon-button><mat-icon>delete</mat-icon></button>
+      </div>
+    </header>
+    <p>Buy: {{strategy.buyMin}} min / {{strategy.buyMax}} max</p>
+    <p>Sell: {{strategy.sellMin}} min / {{strategy.sellMax}} max</p>
+    <p>Budget: {{strategy.buyBudget}} buy / {{strategy.sellBudget}} sell</p>
+  </div>
+  }
+
+</section>

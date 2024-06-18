@@ -5,6 +5,10 @@ const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
+  },
+  {
+    path: 'strategy',
+    loadComponent: () => import('./strategy/landing/strategy.component').then(m => m.StrategyComponent)
   }
 ];
 

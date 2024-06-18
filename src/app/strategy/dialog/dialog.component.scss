@@ -1,0 +1,18 @@
+form{
+  margin: 24px;
+  width: fit-content;
+
+  .row{
+    display: flex;
+    gap: 32px;
+
+    .column{
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  footer{
+    text-align: end;
+  }
+}

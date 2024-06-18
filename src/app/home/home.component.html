@@ -1,5 +1,26 @@
-<p>home works!</p>
-
 <button mat-flat-button color="primary" (click)="metamask()">Metamask</button>
 
-<button (click)="test()">test it</button>
+@if(signer()) {
+  <a mat-button routerLink="strategy">Strategies</a>
+}
+
+@if(loading){
+  <p>loading</p>
+} @else {
+  @if(deployedStrategies.length) {
+    <section>
+    @for(strategy of deployedStrategies; track strategy) {
+        <div class="card">
+          <header>
+            <h3>{{strategy.baseToken | TokenName}} / {{strategy.quoteToken | TokenName}}</h3>
+          </header>
+          <p>Buy: {{strategy.buyPriceLow}} min / {{strategy.buyPriceHigh}} max</p>
+          <p>Sell: {{strategy.sellPriceLow}} min / {{strategy.sellPriceHigh}} max</p>
+          <p>Budget: {{strategy.buyBudget}} buy / {{strategy.sellBudget}} sell</p>
+        </div>
+      }
+    </section>
+  } @else {
+    <p>No strats</p>
+  }
+}
