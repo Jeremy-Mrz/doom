@@ -31,12 +31,13 @@
         }
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Buy budget</mat-label>
-        <input matInput type="number" formControlName="buyBudget" min="0">
-        @if( form.get('buyBudget')?.hasError('minRequired')) {
+        <mat-label>Sell budget</mat-label>
+        <input matInput type="number" formControlName="sellBudget" min="0">
+        @if( form.get('sellBudget')?.hasError('minRequired')) {
         <mat-error>value required > 0</mat-error>
         }
       </mat-form-field>
+
     </div>
 
     <div class="column">
@@ -72,9 +73,9 @@
         }
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Sell budget</mat-label>
-        <input matInput type="number" formControlName="sellBudget" min="0">
-        @if( form.get('sellBudget')?.hasError('minRequired')) {
+        <mat-label>Buy budget</mat-label>
+        <input matInput type="number" formControlName="buyBudget" min="0">
+        @if( form.get('buyBudget')?.hasError('minRequired')) {
         <mat-error>value required > 0</mat-error>
         }
       </mat-form-field>

@@ -82,11 +82,11 @@ export class DialogComponent {
     baseTokenAddress: new FormControl("", { nonNullable: true, validators: [Validators.required] }),
     buyMin: new FormControl(0, { nonNullable: true, validators: [Validators.required, minRequired] }),
     buyMax: new FormControl(0, { nonNullable: true, validators: [Validators.required, minRequired] }),
-    buyBudget: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
+    sellBudget: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
     quoteTokenAddress: new FormControl("", { nonNullable: true, validators: [Validators.required] }),
     sellMin: new FormControl(0, { nonNullable: true, validators: [Validators.required, minRequired] }),
     sellMax: new FormControl(0, { nonNullable: true, validators: [Validators.required, minRequired] }),
-    sellBudget: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
+    buyBudget: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
   }, { validators: [diffToken, priceOrder] });
 
   constructor(

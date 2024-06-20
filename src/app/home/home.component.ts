@@ -48,6 +48,10 @@ export class HomeComponent {
     if (!this.signerService.signer()) return;
     const doom = new Contract(contractAddresses.doomAddress, doomAbi, this.signerService.signer());
     const filters = doom.filters['StategiesIdList'];
+    if (!filters) {
+      this.loading = false;
+      return;
+    };
     const res = await doom.queryFilter(filters);
     const ids = [];
     for (const log of res) {
@@ -55,10 +59,6 @@ export class HomeComponent {
         ids.push(...log.args[0]);
       };
     };
-    if (!ids.length) {
-      this.loading = false;
-      return;
-    }
     const { SDK } = initSDK();
     const promises = ids.map(id => SDK.getStrategyById(id));
     const strategies = await Promise.all(promises);

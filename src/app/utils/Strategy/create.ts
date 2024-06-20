@@ -26,8 +26,8 @@ export function createStrategy(params: CreateStrategyParams) {
     sellBudget
   );
 
-  const amount0 = parseUnits(buyBudget, baseToken.decimals);
-  const amount1 = parseUnits(sellBudget, quoteToken.decimals);
+  const amount0 = parseUnits(sellBudget, baseToken.decimals);
+  const amount1 = parseUnits(buyBudget, quoteToken.decimals);
 
   const encodedStrategy = encodeStrategy(strategy);
   const { order0, order1, token0, token1 } = encodedStrategy;

@@ -77,11 +77,10 @@ export class StrategyComponent {
     await checkForApproval(encodedStrategies, signer);
     const strategyBundle = bundleStrategies(encodedStrategies);
     const doomContract = new Contract(contractAddresses.doomAddress, doomAbi, signer);
-    let createdIds: BigInt[] = [];
-    doomContract.on(doomContract.filters["StategiesIdList(uint256[])"], (ids) => {
-      createdIds = [...ids];
-    });
-    console.log({ strategyBundle });
+    // let createdIds: BigInt[] = [];
+    // doomContract.on(doomContract.filters["StategiesIdList(uint256[])"], (ids) => {
+    //   createdIds = [...ids];
+    // });
     const tx = await doomContract['multiCallCreateStrategy'](strategyBundle);
     await tx.wait();
     this.strategies = [];

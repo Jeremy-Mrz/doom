@@ -1,13 +1,344 @@
-export default [
+export default  [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "token0",
+        internalType: "contract IVoucher",
+        name: "initVoucher",
         type: "address",
       },
       {
         internalType: "address",
+        name: "proxy",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "AccessDenied",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "BalanceMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "DeadlineExpired",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "GreaterThanMaxInput",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "IdenticalAddresses",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientCapacity",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientLiquidity",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientNativeTokenReceived",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidFee",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidIndices",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidRate",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidTradeActionAmount",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidTradeActionStrategyId",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "LowerThanMinReturn",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NativeAmountMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OrderDisabled",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OutDated",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "Overflow",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "PairAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "PairDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UnknownDelegator",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UnnecessaryNativeTokenReceived",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroValue",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "FeesWithdrawn",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
+    ],
+    name: "Initialized",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint128",
+        name: "pairId",
+        type: "uint128",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+    ],
+    name: "PairCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "prevFeePPM",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "newFeePPM",
+        type: "uint32",
+      },
+    ],
+    name: "PairTradingFeePPMUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "previousAdminRole",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "newAdminRole",
+        type: "bytes32",
+      },
+    ],
+    name: "RoleAdminChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "RoleGranted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "RoleRevoked",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
         name: "token1",
         type: "address",
       },
@@ -34,7 +365,484 @@ export default [
             type: "uint64",
           },
         ],
-        internalType: "struct CarbonController.Order[2]",
+        indexed: false,
+        internalType: "struct Order",
+        name: "order0",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "y",
+            type: "uint128",
+          },
+          {
+            internalType: "uint128",
+            name: "z",
+            type: "uint128",
+          },
+          {
+            internalType: "uint64",
+            name: "A",
+            type: "uint64",
+          },
+          {
+            internalType: "uint64",
+            name: "B",
+            type: "uint64",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Order",
+        name: "order1",
+        type: "tuple",
+      },
+    ],
+    name: "StrategyCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "y",
+            type: "uint128",
+          },
+          {
+            internalType: "uint128",
+            name: "z",
+            type: "uint128",
+          },
+          {
+            internalType: "uint64",
+            name: "A",
+            type: "uint64",
+          },
+          {
+            internalType: "uint64",
+            name: "B",
+            type: "uint64",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Order",
+        name: "order0",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "y",
+            type: "uint128",
+          },
+          {
+            internalType: "uint128",
+            name: "z",
+            type: "uint128",
+          },
+          {
+            internalType: "uint64",
+            name: "A",
+            type: "uint64",
+          },
+          {
+            internalType: "uint64",
+            name: "B",
+            type: "uint64",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Order",
+        name: "order1",
+        type: "tuple",
+      },
+    ],
+    name: "StrategyDeleted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "y",
+            type: "uint128",
+          },
+          {
+            internalType: "uint128",
+            name: "z",
+            type: "uint128",
+          },
+          {
+            internalType: "uint64",
+            name: "A",
+            type: "uint64",
+          },
+          {
+            internalType: "uint64",
+            name: "B",
+            type: "uint64",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Order",
+        name: "order0",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "y",
+            type: "uint128",
+          },
+          {
+            internalType: "uint128",
+            name: "z",
+            type: "uint128",
+          },
+          {
+            internalType: "uint64",
+            name: "A",
+            type: "uint64",
+          },
+          {
+            internalType: "uint64",
+            name: "B",
+            type: "uint64",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Order",
+        name: "order1",
+        type: "tuple",
+      },
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "reason",
+        type: "uint8",
+      },
+    ],
+    name: "StrategyUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "trader",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "sourceToken",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "Token",
+        name: "targetToken",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "sourceAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "targetAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint128",
+        name: "tradingFeeAmount",
+        type: "uint128",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "byTargetAmount",
+        type: "bool",
+      },
+    ],
+    name: "TokensTraded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "prevFeePPM",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "newFeePPM",
+        type: "uint32",
+      },
+    ],
+    name: "TradingFeePPMUpdated",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "DEFAULT_ADMIN_ROLE",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token",
+        type: "address",
+      },
+    ],
+    name: "accumulatedFees",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "sourceToken",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "targetToken",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "strategyId",
+            type: "uint256",
+          },
+          {
+            internalType: "uint128",
+            name: "amount",
+            type: "uint128",
+          },
+        ],
+        internalType: "struct TradeAction[]",
+        name: "tradeActions",
+        type: "tuple[]",
+      },
+    ],
+    name: "calculateTradeSourceAmount",
+    outputs: [
+      {
+        internalType: "uint128",
+        name: "",
+        type: "uint128",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "sourceToken",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "targetToken",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "strategyId",
+            type: "uint256",
+          },
+          {
+            internalType: "uint128",
+            name: "amount",
+            type: "uint128",
+          },
+        ],
+        internalType: "struct TradeAction[]",
+        name: "tradeActions",
+        type: "tuple[]",
+      },
+    ],
+    name: "calculateTradeTargetAmount",
+    outputs: [
+      {
+        internalType: "uint128",
+        name: "",
+        type: "uint128",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "controllerType",
+    outputs: [
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+    ],
+    name: "createPair",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "id",
+            type: "uint128",
+          },
+          {
+            internalType: "Token[2]",
+            name: "tokens",
+            type: "address[2]",
+          },
+        ],
+        internalType: "struct Pair",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "y",
+            type: "uint128",
+          },
+          {
+            internalType: "uint128",
+            name: "z",
+            type: "uint128",
+          },
+          {
+            internalType: "uint64",
+            name: "A",
+            type: "uint64",
+          },
+          {
+            internalType: "uint64",
+            name: "B",
+            type: "uint64",
+          },
+        ],
+        internalType: "struct Order[2]",
         name: "orders",
         type: "tuple[2]",
       },
@@ -54,11 +862,334 @@ export default [
     inputs: [
       {
         internalType: "uint256",
-        name: "id",
+        name: "strategyId",
         type: "uint256",
       },
     ],
-    name: "strategy",
+    name: "deleteStrategy",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+    ],
+    name: "getRoleAdmin",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "index",
+        type: "uint256",
+      },
+    ],
+    name: "getRoleMember",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+    ],
+    name: "getRoleMemberCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "grantRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "hasRole",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+    ],
+    name: "pair",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint128",
+            name: "id",
+            type: "uint128",
+          },
+          {
+            internalType: "Token[2]",
+            name: "tokens",
+            type: "address[2]",
+          },
+        ],
+        internalType: "struct Pair",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+    ],
+    name: "pairTradingFeePPM",
+    outputs: [
+      {
+        internalType: "uint32",
+        name: "",
+        type: "uint32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pairs",
+    outputs: [
+      {
+        internalType: "Token[2][]",
+        name: "",
+        type: "address[2][]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+    ],
+    name: "postUpgrade",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "renounceRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "revokeRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "roleAdmin",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "roleFeesManager",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+      {
+        internalType: "uint32",
+        name: "newPairTradingFeePPM",
+        type: "uint32",
+      },
+    ],
+    name: "setPairTradingFeePPM",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint32",
+        name: "newTradingFeePPM",
+        type: "uint32",
+      },
+    ],
+    name: "setTradingFeePPM",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "startIndex",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "endIndex",
+        type: "uint256",
+      },
+    ],
+    name: "strategiesByPair",
     outputs: [
       {
         components: [
@@ -73,7 +1204,7 @@ export default [
             type: "address",
           },
           {
-            internalType: "address[2]",
+            internalType: "Token[2]",
             name: "tokens",
             type: "address[2]",
           },
@@ -100,12 +1231,99 @@ export default [
                 type: "uint64",
               },
             ],
-            internalType: "struct CarbonController.Order[2]",
+            internalType: "struct Order[2]",
             name: "orders",
             type: "tuple[2]",
           },
         ],
-        internalType: "struct CarbonController.Strategy",
+        internalType: "struct Strategy[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token0",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "token1",
+        type: "address",
+      },
+    ],
+    name: "strategiesByPairCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+    ],
+    name: "strategy",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "Token[2]",
+            name: "tokens",
+            type: "address[2]",
+          },
+          {
+            components: [
+              {
+                internalType: "uint128",
+                name: "y",
+                type: "uint128",
+              },
+              {
+                internalType: "uint128",
+                name: "z",
+                type: "uint128",
+              },
+              {
+                internalType: "uint64",
+                name: "A",
+                type: "uint64",
+              },
+              {
+                internalType: "uint64",
+                name: "B",
+                type: "uint64",
+              },
+            ],
+            internalType: "struct Order[2]",
+            name: "orders",
+            type: "tuple[2]",
+          },
+        ],
+        internalType: "struct Strategy",
         name: "",
         type: "tuple",
       },
@@ -116,12 +1334,31 @@ export default [
   {
     inputs: [
       {
-        internalType: "address",
+        internalType: "bytes4",
+        name: "interfaceId",
+        type: "bytes4",
+      },
+    ],
+    name: "supportsInterface",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
         name: "sourceToken",
         type: "address",
       },
       {
-        internalType: "address",
+        internalType: "Token",
         name: "targetToken",
         type: "address",
       },
@@ -138,7 +1375,7 @@ export default [
             type: "uint128",
           },
         ],
-        internalType: "struct CarbonController.TradeAction[]",
+        internalType: "struct TradeAction[]",
         name: "tradeActions",
         type: "tuple[]",
       },
@@ -162,6 +1399,70 @@ export default [
       },
     ],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "sourceToken",
+        type: "address",
+      },
+      {
+        internalType: "Token",
+        name: "targetToken",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "strategyId",
+            type: "uint256",
+          },
+          {
+            internalType: "uint128",
+            name: "amount",
+            type: "uint128",
+          },
+        ],
+        internalType: "struct TradeAction[]",
+        name: "tradeActions",
+        type: "tuple[]",
+      },
+      {
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
+      {
+        internalType: "uint128",
+        name: "maxInput",
+        type: "uint128",
+      },
+    ],
+    name: "tradeByTargetAmount",
+    outputs: [
+      {
+        internalType: "uint128",
+        name: "",
+        type: "uint128",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tradingFeePPM",
+    outputs: [
+      {
+        internalType: "uint32",
+        name: "",
+        type: "uint32",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -194,7 +1495,7 @@ export default [
             type: "uint64",
           },
         ],
-        internalType: "struct CarbonController.Order[2]",
+        internalType: "struct Order[2]",
         name: "currentOrders",
         type: "tuple[2]",
       },
@@ -221,7 +1522,7 @@ export default [
             type: "uint64",
           },
         ],
-        internalType: "struct CarbonController.Order[2]",
+        internalType: "struct Order[2]",
         name: "newOrders",
         type: "tuple[2]",
       },
@@ -231,4 +1532,46 @@ export default [
     stateMutability: "payable",
     type: "function",
   },
-] 
+  {
+    inputs: [],
+    name: "version",
+    outputs: [
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "Token",
+        name: "token",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+    ],
+    name: "withdrawFees",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
