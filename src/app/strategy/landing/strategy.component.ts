@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { tokens } from '../../utils/tokens/info';
-import { Contract, parseUnits } from 'ethers';
+import { Contract, JsonRpcSigner, parseUnits } from 'ethers';
 import { contractAddresses } from '../../utils/contract/addresses';
 import doomAbi from "../../utils/abi/doom";
-import { CreateStrategyParams } from '../../utils/types';
+import { ConvertedStrategy, CreateStrategyParams } from '../../utils/types';
 
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +15,24 @@ import { bundleStrategies } from '../../utils/Strategy/bundler';
 import { TokenNamePipe } from '../../utils/pipes';
 import { DialogComponent } from '../dialog/dialog.component';
 import { approveToken } from 'src/app/utils/erc20/approval';
+import { ToolbarComponent } from 'src/app/utilities/toolbar/toolbar.component';
+
+async function checkForApproval(strategies: ConvertedStrategy[], signer: JsonRpcSigner) {
+  for (const strategy of strategies) {
+    if (Number(strategy.amount0) > 0) {
+      const baseToken = tokens.find(token => token.address === strategy.token0);
+      if (!baseToken) throw new Error("Error fetching base token data for approval");
+      console.log({base: baseToken.address, amount0: strategy.amount0})
+      await approveToken(strategy.token0, strategy.amount0, signer);
+    }
+    if (Number(strategy.amount1) > 0) {
+      const quoteToken = tokens.find(token => token.address === strategy.token1);
+      if (!quoteToken) throw new Error("Error fetching quote token data for approval");
+      console.log({quote: quoteToken.address, amount: strategy.amount1})
+      await approveToken(strategy.token1, strategy.amount1, signer);
+    }
+  }
+}
 
 
 const imports = [
@@ -22,7 +40,8 @@ const imports = [
   MatButtonModule,
   TokenNamePipe,
   MatIconModule,
-  MatDialogModule
+  MatDialogModule,
+  ToolbarComponent
 ]
 
 @Component({
@@ -54,25 +73,15 @@ export class StrategyComponent {
     const signer = this.signerService.signer();
     if (!this.strategies.length || !signer) return;
     this.loading = true;
-    const promises = this.strategies.map(strategy => {
-      if (Number(strategy.buyBudget) > 0 || Number(strategy.sellBudget) > 0) {
-        const baseToken = tokens.find(token => token.address === strategy.baseTokenAddress);
-        const quoteToken = tokens.find(token => token.address === strategy.quoteTokenAddress);
-        if (!baseToken || !quoteToken) throw new Error("Error fetching token data for approval");
-        const buy = parseUnits(strategy.buyBudget, baseToken.decimals);
-        const sell = parseUnits(strategy.sellBudget, quoteToken.decimals);
-        approveToken(strategy.baseTokenAddress, buy, signer);
-        approveToken(strategy.quoteTokenAddress, sell, signer);
-      }
-      return createStrategy(strategy);
-    });
-    const encodedStrategies = await Promise.all(promises);
+    const encodedStrategies = this.strategies.map(createStrategy);
+    await checkForApproval(encodedStrategies, signer);
     const strategyBundle = bundleStrategies(encodedStrategies);
     const doomContract = new Contract(contractAddresses.doomAddress, doomAbi, signer);
     let createdIds: BigInt[] = [];
     doomContract.on(doomContract.filters["StategiesIdList(uint256[])"], (ids) => {
       createdIds = [...ids];
     });
+    console.log({ strategyBundle });
     const tx = await doomContract['multiCallCreateStrategy'](strategyBundle);
     await tx.wait();
     this.strategies = [];

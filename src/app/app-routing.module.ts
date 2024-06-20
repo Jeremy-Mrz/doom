@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SignerGuard } from './utils/guards/signer';
 
 const routes: Routes = [
   {
@@ -8,6 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'strategy',
+    canActivate: [SignerGuard],
     loadComponent: () => import('./strategy/landing/strategy.component').then(m => m.StrategyComponent)
   }
 ];

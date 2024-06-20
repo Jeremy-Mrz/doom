@@ -1,0 +1,23 @@
+.toolbar{
+  background-color: rgb(210, 200, 200);
+  height: 56px;
+  display: flex;
+  align-items: center;
+
+  h1, p{
+    margin: 0 8px;
+  }
+
+  footer{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 16px;
+
+    img {
+      width: 24px;
+      aspect-ratio: 1;
+      margin: auto;
+    }
+  }  
+}

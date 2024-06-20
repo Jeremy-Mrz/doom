@@ -1,0 +1,17 @@
+<header class="toolbar">
+  @if(current$ | async; as current){
+    <button mat-icon-button (click)="back()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  }
+  <h1>{{title}}</h1>
+  <footer>
+    @if (signerService.signer()) {
+      <p>connected</p>
+      <img src="../assets/check-mark-svgrepo-com.svg">
+      } @else {
+        <p>not connected</p>
+        <img src="../assets/cross-mark-svgrepo-com.svg">
+    }
+  </footer>
+</header>

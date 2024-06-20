@@ -1,4 +1,3 @@
-import { EncodedOrder } from "@bancor/carbon-sdk";
 import { OrderStruct } from "@bancor/carbon-sdk/dist/abis/types/CarbonController";
 import { BigNumber } from "@bancor/carbon-sdk/utils";
 

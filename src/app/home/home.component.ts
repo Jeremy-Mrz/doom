@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Contract, Interface } from 'ethers';
+import { Contract, Interface, parseUnits } from 'ethers';
 import doomAbi from "../utils/abi/doom";
 import { contractAddresses } from '../utils/contract/addresses';
 
@@ -9,11 +9,15 @@ import { SignerService } from '../signer.service';
 import { initSDK } from '../utils/sdk';
 import { Strategy } from '@bancor/carbon-sdk';
 import { TokenNamePipe } from '../utils/pipes';
+import { ToolbarComponent } from '../utilities/toolbar/toolbar.component';
+import erc20 from '../utils/abi/erc20';
+import { tokens } from '../utils/tokens/info';
 
 const imports = [
   MatButtonModule,
   RouterModule,
-  TokenNamePipe
+  TokenNamePipe,
+  ToolbarComponent
 ]
 
 @Component({
@@ -30,16 +34,17 @@ export class HomeComponent {
   deployedStrategies: Strategy[] = [];
   loading = false;
 
+  async ngOnInit() {
+    if (this.signerService.signer()) await this.getStrategies();
+  }
 
   async metamask() {
-    this.loading = true;
-    if (!this.signerService.signer()) await this.signerService.connectetSigner();
-    await this.getStrategies();
-    this.loading = false;
+    await this.signerService.connectetSigner();
+    if (!this.deployedStrategies.length) await this.getStrategies();
   }
 
   async getStrategies() {
-    const test = new Interface(doomAbi);
+    this.loading = true;
     if (!this.signerService.signer()) return;
     const doom = new Contract(contractAddresses.doomAddress, doomAbi, this.signerService.signer());
     const filters = doom.filters['StategiesIdList'];
@@ -50,9 +55,14 @@ export class HomeComponent {
         ids.push(...log.args[0]);
       };
     };
+    if (!ids.length) {
+      this.loading = false;
+      return;
+    }
     const { SDK } = initSDK();
     const promises = ids.map(id => SDK.getStrategyById(id));
     const strategies = await Promise.all(promises);
     this.deployedStrategies.push(...strategies);
+    this.loading = false;
   }
 }

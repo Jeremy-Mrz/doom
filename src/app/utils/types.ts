@@ -16,6 +16,8 @@ export interface CreateStrategyParams {
 export interface ConvertedStrategy {
   token0: string;
   token1: string;
+  amount0: BigNumberish;
+  amount1: BigNumberish;
   order0: OrderStruct;
   order1: OrderStruct;
 }
@@ -23,6 +25,8 @@ export interface ConvertedStrategy {
 export interface BundledStrategy {
   token0: string;
   token1: string;
+  amount0: BigNumberish;
+  amount1: BigNumberish;
   orders: OrderStruct[];
 }
 

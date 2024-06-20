@@ -1,21 +1,5 @@
-<header class="toolbar">
-  <a routerLink="../" mat-icon-button>
-    <mat-icon>arrow_back</mat-icon>
-  </a>
-  <h1>Welcome to DOOM</h1>
-  <footer>
-    @if (signerService.signer()) {
-      <p>connected</p>
-      <img src="../assets/check-mark-svgrepo-com.svg">
-      } @else {
-        <p>not connected</p>
-        <img src="../assets/cross-mark-svgrepo-com.svg">
-    }
-  </footer>
-</header>
-
+<app-toolbar title="Strategies"></app-toolbar>
 <h2>Welcome to Strategies</h2>
-
 
 <button mat-flat-button color="primary" (click)="createStrategy()" [disabled]="loading">Create</button>
 
